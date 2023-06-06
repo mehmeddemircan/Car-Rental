@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRental.Entities.Abstract
+namespace CarRental.Core.Entities.Abstract
 {
     public interface IDto
     {

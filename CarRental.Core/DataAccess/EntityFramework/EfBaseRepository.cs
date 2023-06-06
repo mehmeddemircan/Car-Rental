@@ -1,5 +1,6 @@
-﻿using CarRental.DataAccess;
-using CarRental.Entities.Abstract;
+﻿using CarRental.Core.Entities.Abstract;
+using CarRental.DataAccess;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,14 @@ namespace CarRental.Core.DataAccess.EntityFramework
             }
         }
 
-      
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        {
+            using (var context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(filter);
+            }
+        }
+
 
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
         {

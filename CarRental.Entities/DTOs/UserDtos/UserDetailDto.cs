@@ -1,4 +1,5 @@
-﻿using CarRental.Entities.Abstract;
+﻿
+using CarRental.Core.Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

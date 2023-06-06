@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRental.Entities.Abstract
+namespace CarRental.Core.Entities.Abstract
 {
     public interface ICreatedEntity
     {
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarRental.Core\CarRental.Core.csproj" />
   </ItemGroup>
 
 </Project>

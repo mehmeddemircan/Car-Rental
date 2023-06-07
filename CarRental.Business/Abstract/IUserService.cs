@@ -18,6 +18,8 @@ namespace CarRental.Business.Abstract
 
         Task<UserDto> GetByIdAsync(int id);
 
+        Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto);
+
         Task<bool> DeleteAsync(int id);
 
     }

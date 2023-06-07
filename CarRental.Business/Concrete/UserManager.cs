@@ -74,11 +74,18 @@ namespace  CarRental.Business.Concrete
             return userDto; 
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-<<<<<<< Updated upstream
-            throw new NotImplementedException();
-=======
+
+
+            return await _userRepository.DeleteAsync(id); 
+
+      
+
+        }
+
+        public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto)
+        {
             var getUser = await _userRepository.GetAsync(x => x.Id == userUpdateDto.Id);
 
 
@@ -117,8 +124,6 @@ namespace  CarRental.Business.Concrete
 
             };
             return newUserUpdateDto;
-
->>>>>>> Stashed changes
         }
     }
 }

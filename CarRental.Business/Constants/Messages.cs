@@ -20,5 +20,10 @@ namespace CarRental.Business.Constants
 
         public static string AuthorizationDenied = "Yetkiniz yok";
         public static string ProductNameAlreadyExists = "Ürün ismi zaten mevcut";
+        public static string Added = "Eklendi basarıyla";
+        public static string Listed = "Listelendi basariyla";
+        public static string NotListed = "Basarisiz listeleme";
+        public static string Updated = "Güncellendi basariyla";
+        public static string Deleted = "Silindii basariyla";
     }
 }

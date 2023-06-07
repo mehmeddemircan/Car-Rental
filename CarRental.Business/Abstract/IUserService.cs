@@ -1,4 +1,5 @@
 ﻿using CarRental.Core.Entities.Concrete.Auth;
+using CarRental.Core.Utilities.Results;
 using CarRental.Entities.DTOs.UserDtos;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ namespace CarRental.Business.Abstract
         void Add(User user);
         User GetByMail(string email);
 
-        Task<IEnumerable<UserDetailDto>> GetListAsync();
+        Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync();
 
-        Task<UserDto> GetByIdAsync(int id);
+        Task<IDataResult<UserDto>> GetByIdAsync(int id);
 
-        Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto);
+        Task<IDataResult<UserUpdateDto>> UpdateAsync(UserUpdateDto userUpdateDto);
 
-        Task<bool> DeleteAsync(int id);
+        Task<IDataResult<bool>> DeleteAsync(int id);
 
     }
 }

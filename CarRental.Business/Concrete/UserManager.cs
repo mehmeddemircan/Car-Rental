@@ -1,6 +1,8 @@
 ﻿
 using CarRental.Business.Abstract;
+using CarRental.Business.Constants;
 using CarRental.Core.Entities.Concrete.Auth;
+using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.DTOs.UserDtos;
 using System;
@@ -37,7 +39,7 @@ namespace  CarRental.Business.Concrete
             return _userRepository.Get(u => u.Email == email);
         }
 
-        public async Task<IEnumerable<UserDetailDto>> GetListAsync()
+        public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync()
         {
 
             List<UserDetailDto> userDetailDtos = new List<UserDetailDto>();
@@ -56,35 +58,42 @@ namespace  CarRental.Business.Concrete
                 });
 
             }
-            return userDetailDtos; 
+            return new SuccessDataResult<IEnumerable<UserDetailDto>>(userDetailDtos,Messages.Listed); 
                 
         }
 
-        public async Task<UserDto> GetByIdAsync(int id)
+        public async Task<IDataResult<UserDto>> GetByIdAsync(int id)
         {
            var user = await _userRepository.GetAsync(x => x.Id == id);
-            UserDto userDto = new UserDto()
+            if (user != null)
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Status = user.Status
-            };
-            return userDto; 
+                UserDto userDto = new UserDto()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Status = user.Status,
+
+                };
+                return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
+            }
+            return new ErrorDataResult<UserDto>(null, Messages.NotListed);
+
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<IDataResult<bool>> DeleteAsync(int id)
         {
 
 
-            return await _userRepository.DeleteAsync(id); 
+            var isDelete = await _userRepository.DeleteAsync(id);
+            return new SuccessDataResult<bool>(isDelete, Messages.Deleted);
 
-      
+
 
         }
 
-        public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto)
+        public async Task<IDataResult<UserUpdateDto>> UpdateAsync(UserUpdateDto userUpdateDto)
         {
             var getUser = await _userRepository.GetAsync(x => x.Id == userUpdateDto.Id);
 
@@ -123,7 +132,7 @@ namespace  CarRental.Business.Concrete
                 Address = userUpdateDto.Address,
 
             };
-            return newUserUpdateDto;
+            return new SuccessDataResult<UserUpdateDto>(newUserUpdateDto, Messages.Updated);
         }
     }
 }

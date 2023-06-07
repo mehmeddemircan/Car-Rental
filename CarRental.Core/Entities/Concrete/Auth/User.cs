@@ -15,9 +15,9 @@ namespace CarRental.Core.Entities.Concrete.Auth
             public byte[] PasswordSalt { get; set; }
             public byte[] PasswordHash { get; set; }
             public bool Status { get; set; }
-        //public bool Gender { get; set; }
-        //public DateTime DateOfBirth { get; set; }
-        //public string Address { get; set; }
+            public bool? Gender { get; set; }
+            public DateTime? DateOfBirth { get; set; }
+            public string? Address { get; set; }
     }
     
 }

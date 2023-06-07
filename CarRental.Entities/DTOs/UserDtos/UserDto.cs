@@ -20,10 +20,9 @@ namespace CarRental.Entities.DTOs.UserDtos
         public string Email { get; set; }
 
         public bool Status { get; set; }
-       
-        //public bool Gender { get; set; }
 
-        //public DateTime DateOfBirth { get; set; }
-        //public string Address { get; set; }
+        public string Gender { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string Address { get; set; }
     }
 }

@@ -44,7 +44,8 @@ namespace  CarRental.Business.Concrete
 
               var response = await _userRepository.GetListAsync();
             foreach (var item in response.ToList())
-            {
+            {   
+                //Todo: CreatedAt ve CreatedBy düzenlenecek
 
                 userDetailDtos.Add(new UserDetailDto()
                 {
@@ -74,9 +75,52 @@ namespace  CarRental.Business.Concrete
             return userDto; 
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+           
+            return await _userRepository.DeleteAsync(id);
+        }
+
+        public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto)
+        {
+            var getUser = await _userRepository.GetAsync(x => x.Id == userUpdateDto.Id);
+
+            User user = new User()
+            {
+                Id = userUpdateDto.Id,
+                FirstName = userUpdateDto.FirstName,
+                LastName = userUpdateDto.LastName,
+                Email = userUpdateDto.Email,
+                Gender = userUpdateDto.Gender,
+                Status = userUpdateDto.Status,
+                //todo: Şifre Güncellemede eklenecek
+                PasswordHash = getUser.PasswordHash,
+                PasswordSalt = getUser.PasswordSalt,
+                DateOfBirth = userUpdateDto.DateOfBirth,
+                Address = userUpdateDto.Address,
+                CreatedDate = getUser.CreatedDate,
+                CreatedBy = getUser.CreatedBy,
+                UpdatedDate = DateTime.Now,
+                UpdatedBy = 1
+
+
+            };
+
+            var userUpdate = await _userRepository.UpdateAsync(user);
+            UserUpdateDto newUserUpdateDto = new UserUpdateDto()
+            {
+                Id = userUpdateDto.Id,
+                FirstName = userUpdateDto.FirstName,
+                LastName = userUpdateDto.LastName,
+                Email = userUpdateDto.Email,
+                Gender = userUpdateDto.Gender,
+                Status = userUpdateDto.Status,
+                DateOfBirth = userUpdateDto.DateOfBirth,
+                Address = userUpdateDto.Address,
+
+            };
+            return newUserUpdateDto;
+
         }
     }
 }

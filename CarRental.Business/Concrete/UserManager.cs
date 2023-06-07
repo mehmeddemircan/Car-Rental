@@ -44,8 +44,7 @@ namespace  CarRental.Business.Concrete
 
               var response = await _userRepository.GetListAsync();
             foreach (var item in response.ToList())
-            {   
-                //Todo: CreatedAt ve CreatedBy düzenlenecek
+            {
 
                 userDetailDtos.Add(new UserDetailDto()
                 {
@@ -75,15 +74,13 @@ namespace  CarRental.Business.Concrete
             return userDto; 
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(int id)
         {
-           
-            return await _userRepository.DeleteAsync(id);
-        }
-
-        public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto)
-        {
+<<<<<<< Updated upstream
+            throw new NotImplementedException();
+=======
             var getUser = await _userRepository.GetAsync(x => x.Id == userUpdateDto.Id);
+
 
             User user = new User()
             {
@@ -121,6 +118,7 @@ namespace  CarRental.Business.Concrete
             };
             return newUserUpdateDto;
 
+>>>>>>> Stashed changes
         }
     }
 }

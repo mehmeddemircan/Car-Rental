@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new UserProfile());
-
+    mc.AddProfile(new BrandProfile());
 });
 var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

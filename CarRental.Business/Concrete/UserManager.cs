@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
 using CarRental.Core.Entities.Concrete.Auth;
@@ -8,6 +9,7 @@ using CarRental.Entities.DTOs.UserDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,10 +19,11 @@ namespace  CarRental.Business.Concrete
     {
 
         IUserRepository _userRepository;
-
-        public UserManager(IUserRepository userRepository)
+        IMapper _mapper; 
+        public UserManager(IUserRepository userRepository,IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public List<OperationClaim> GetClaims(User user)
@@ -39,27 +42,33 @@ namespace  CarRental.Business.Concrete
             return _userRepository.Get(u => u.Email == email);
         }
 
-        public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync()
+        public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync(Expression<Func<User, bool>> filter = null)
         {
-
-            List<UserDetailDto> userDetailDtos = new List<UserDetailDto>();
-
-              var response = await _userRepository.GetListAsync();
-            foreach (var item in response.ToList())
+            if (filter == null)
             {
-
-                userDetailDtos.Add(new UserDetailDto()
-                {
-                    Id = item.Id,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    Email = item.Email,
-                    Status = item.Status
-                });
-
+               
+                var response = await _userRepository.GetListAsync();
+                var responseUserDetailDto = _mapper.Map< IEnumerable <UserDetailDto>> (response);
+                return new SuccessDataResult<IEnumerable<UserDetailDto>>(responseUserDetailDto, Messages.Listed);
             }
-            return new SuccessDataResult<IEnumerable<UserDetailDto>>(userDetailDtos,Messages.Listed); 
-                
+            else
+            {
+                var response = await _userRepository.GetListAsync(filter);
+                var responseUserDetailDto = _mapper.Map<IEnumerable<UserDetailDto>>(response);
+                return new SuccessDataResult<IEnumerable<UserDetailDto>>(responseUserDetailDto, Messages.Listed);
+            }
+        }
+
+        public async Task<IDataResult<UserDto>> GetAsync(Expression<Func<User, bool>> filter)
+        {
+            var user = await _userRepository.GetAsync(filter);
+            if (user != null)
+            {
+                var userDto = _mapper.Map<UserDto>(user);
+                return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
+            }
+
+            return new ErrorDataResult<UserDto>(null,Messages.NotListed);
         }
 
         public async Task<IDataResult<UserDto>> GetByIdAsync(int id)
@@ -67,15 +76,7 @@ namespace  CarRental.Business.Concrete
            var user = await _userRepository.GetAsync(x => x.Id == id);
             if (user != null)
             {
-                UserDto userDto = new UserDto()
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Status = user.Status,
-
-                };
+                var userDto = _mapper.Map<UserDto>(user);
                 return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
             }
             return new ErrorDataResult<UserDto>(null, Messages.NotListed);
@@ -97,42 +98,20 @@ namespace  CarRental.Business.Concrete
         {
             var getUser = await _userRepository.GetAsync(x => x.Id == userUpdateDto.Id);
 
+            var user = _mapper.Map<User>(userUpdateDto);
 
-            User user = new User()
-            {
-                Id = userUpdateDto.Id,
-                FirstName = userUpdateDto.FirstName,
-                LastName = userUpdateDto.LastName,
-                Email = userUpdateDto.Email,
-                Gender = userUpdateDto.Gender,
-                Status = userUpdateDto.Status,
-                //todo: Şifre Güncellemede eklenecek
-                PasswordHash = getUser.PasswordHash,
-                PasswordSalt = getUser.PasswordSalt,
-                DateOfBirth = userUpdateDto.DateOfBirth,
-                Address = userUpdateDto.Address,
-                CreatedDate = getUser.CreatedDate,
-                CreatedBy = getUser.CreatedBy,
-                UpdatedDate = DateTime.Now,
-                UpdatedBy = 1
-
-
-            };
+            user.PasswordHash = getUser.PasswordHash;
+            user.PasswordSalt = getUser.PasswordSalt; 
+            user.UpdatedDate = DateTime.Now;
+            user.UpdatedBy = 1;
+            
 
             var userUpdate = await _userRepository.UpdateAsync(user);
-            UserUpdateDto newUserUpdateDto = new UserUpdateDto()
-            {
-                Id = userUpdateDto.Id,
-                FirstName = userUpdateDto.FirstName,
-                LastName = userUpdateDto.LastName,
-                Email = userUpdateDto.Email,
-                Gender = userUpdateDto.Gender,
-                Status = userUpdateDto.Status,
-                DateOfBirth = userUpdateDto.DateOfBirth,
-                Address = userUpdateDto.Address,
-
-            };
-            return new SuccessDataResult<UserUpdateDto>(newUserUpdateDto, Messages.Updated);
+            var resultUpdate = _mapper.Map<UserUpdateDto>(userUpdate);
+          
+            return new SuccessDataResult<UserUpdateDto>(resultUpdate, Messages.Updated);
         }
+
+      
     }
 }

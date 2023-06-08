@@ -16,19 +16,6 @@ namespace CarRental.WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        [Route("[action]")]
-        public async Task<IActionResult> GetUsers()
-        {
-            var result = await _userService.GetListAsync();
-            if (result != null)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest();
-
-        }
 
         [HttpGet]
         [Route("[action]/{userId:int}")]
@@ -47,7 +34,7 @@ namespace CarRental.WebAPI.Controllers
 
         [HttpDelete("delete-user")]
 
-        public async Task<IActionResult> DeletePerson(int userId)
+        public async Task<IActionResult> DeleteUser(int userId)
         {
             var result = await _userService.DeleteAsync(userId);
             if (result.Success)
@@ -59,7 +46,7 @@ namespace CarRental.WebAPI.Controllers
 
         [HttpPut("update-user")]
 
-        public async Task<IActionResult> UpdatePerson([FromBody] UserUpdateDto userUpdateDto)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto userUpdateDto)
         {
             var result = await _userService.UpdateAsync(userUpdateDto);
             if (result != null)

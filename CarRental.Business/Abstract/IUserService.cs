@@ -4,6 +4,7 @@ using CarRental.Entities.DTOs.UserDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,8 @@ namespace CarRental.Business.Abstract
         void Add(User user);
         User GetByMail(string email);
 
-        Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync();
+        Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync(Expression<Func<User, bool>> filter = null);
+        Task<IDataResult<UserDto>> GetAsync(Expression<Func<User, bool>> filter);
 
         Task<IDataResult<UserDto>> GetByIdAsync(int id);
 

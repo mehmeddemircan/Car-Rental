@@ -22,6 +22,8 @@ var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new UserProfile());
     mc.AddProfile(new BrandProfile());
+    mc.AddProfile(new ModelProfile());
+   
 });
 var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

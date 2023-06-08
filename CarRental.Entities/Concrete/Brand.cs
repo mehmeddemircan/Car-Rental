@@ -12,6 +12,6 @@ namespace CarRental.Entities.Concrete
 
         public string BrandName { get; set; }
 
-        //public virtual ICollection<Model> CarModels { get; set; }
+
     }
 }

@@ -4,6 +4,7 @@ using CarRental.DataAccess.Concrete.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230608222653_createCarModelTable")]
+    partial class createCarModelTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,7 +167,7 @@ namespace CarRental.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BrandId")
+                    b.Property<int>("BrandID")
                         .HasColumnType("int");
 
                     b.Property<int?>("CreatedBy")
@@ -185,7 +188,7 @@ namespace CarRental.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandID");
 
                     b.ToTable("Models");
                 });
@@ -194,7 +197,7 @@ namespace CarRental.DataAccess.Migrations
                 {
                     b.HasOne("CarRental.Entities.Concrete.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId")
+                        .HasForeignKey("BrandID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

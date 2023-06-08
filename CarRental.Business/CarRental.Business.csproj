@@ -11,16 +11,13 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.0.0" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CarRental.Core\CarRental.Core.csproj" />
     <ProjectReference Include="..\CarRental.DataAccess\CarRental.DataAccess.csproj" />
     <ProjectReference Include="..\CarRental.Entities\CarRental.Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Validation\FluentValidation\" />
   </ItemGroup>
 
 </Project>

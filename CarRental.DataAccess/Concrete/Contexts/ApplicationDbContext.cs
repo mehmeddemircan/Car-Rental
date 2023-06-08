@@ -1,4 +1,5 @@
 ﻿using CarRental.Core.Entities.Concrete.Auth;
+using CarRental.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace CarRental.DataAccess.Concrete.Contexts
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
+        public DbSet<Brand> Brands { get; set; }
 
     }
 }

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\CarRental.Entities\CarRental.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validation\FluentValidation\" />
+  </ItemGroup>
+
 </Project>

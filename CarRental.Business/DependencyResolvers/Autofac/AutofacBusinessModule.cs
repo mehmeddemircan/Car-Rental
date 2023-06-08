@@ -34,6 +34,9 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<BrandManager>().As<IBrandService>();
             builder.RegisterType<BrandRepository>().As<IBrandRepository>();
 
+            builder.RegisterType<ModelManager>().As<IModelService>();
+            builder.RegisterType<ModelRepository>().As<IModelRepository>();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

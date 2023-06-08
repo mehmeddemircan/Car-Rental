@@ -1,6 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using CarRental.Business.DependencyResolvers.Autofac;
+using CarRental.Business.Mappings;
 using CarRental.Core.Utilities.Security.Encryption;
 using CarRental.Core.Utilities.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +17,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region AutoMapper
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new UserProfile());
+
+});
+var mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+#endregion
 
 //autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());

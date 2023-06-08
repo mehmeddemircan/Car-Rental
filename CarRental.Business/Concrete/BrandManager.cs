@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
+using CarRental.Business.Validation.FluentValidation;
+using CarRental.Core.Aspects.Validation;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.Concrete;
@@ -24,6 +26,7 @@ namespace CarRental.Business.Concrete
             _mapper = mapper;   
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public async Task<IDataResult<BrandDetailDto>> AddAsync(BrandAddDto entity)
         {
             var newBrand = _mapper.Map<Brand>(entity); 

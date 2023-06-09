@@ -13,7 +13,7 @@ namespace CarRental.Business.Validation.FluentValidation
 
         public CarValidator()
         {
-            RuleFor(x => x.Price).NotEmpty().WithMessage("Fiyat boş gecilemez !");
+            RuleFor(x => x.DailyPrice).NotEmpty().WithMessage("Fiyat boş gecilemez !");
         }
     }
 }

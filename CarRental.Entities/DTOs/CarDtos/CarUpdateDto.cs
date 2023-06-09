@@ -11,10 +11,11 @@ namespace CarRental.Entities.DTOs.CarDtos
     {
         public int Id { get; set; }
 
+        public string Description { get; set; }
         public int BrandId { get; set; }
         public int ModelId { get; set; }
         public int ColorId { get; set; }
         public int Year { get; set; }
-        public decimal Price { get; set; }
+        public int DailyPrice { get; set; }
     }
 }

@@ -12,8 +12,9 @@ namespace CarRental.Entities.DTOs.ModelDtos
     {
         public int Id { get; set; }
         public string ModelName { get; set; }
-        
-        public BrandDetailDto Brand { get; set; }
+
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
 
 
     }

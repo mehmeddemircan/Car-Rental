@@ -4,6 +4,7 @@ using CarRental.DataAccess.Concrete.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230609173955_addCarTableToDatabase")]
+    partial class addCarTableToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,9 +171,6 @@ namespace CarRental.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
@@ -196,8 +196,6 @@ namespace CarRental.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.HasIndex("ColorId");
 
@@ -271,12 +269,6 @@ namespace CarRental.DataAccess.Migrations
 
             modelBuilder.Entity("CarRental.Entities.Concrete.Car", b =>
                 {
-                    b.HasOne("CarRental.Entities.Concrete.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarRental.Entities.Concrete.Color", "Color")
                         .WithMany()
                         .HasForeignKey("ColorId")
@@ -288,8 +280,6 @@ namespace CarRental.DataAccess.Migrations
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Brand");
 
                     b.Navigation("Color");
 

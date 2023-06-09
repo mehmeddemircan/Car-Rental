@@ -21,7 +21,7 @@ namespace CarRental.Business.Abstract
 
         Task<IDataResult<ColorDetailDto>> GetByIdAsync(int id);
 
-        Task<IDataResult<ColorUpdateDto>> UpdateAsync(ColorUpdateDto modelUpdateDto);
+        Task<IDataResult<ColorUpdateDto>> UpdateAsync(ColorUpdateDto colorUpdateDto);
 
         Task<IDataResult<bool>> DeleteAsync(int id);
     }

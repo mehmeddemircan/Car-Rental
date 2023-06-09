@@ -31,5 +31,7 @@ namespace CarRental.DataAccess.Concrete.Contexts
 
         public DbSet<Color> Colors { get; set; }
 
+        public DbSet<Car> Cars { get; set; }
+
     }
 }

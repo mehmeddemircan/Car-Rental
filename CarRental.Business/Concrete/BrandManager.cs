@@ -19,20 +19,40 @@ namespace CarRental.Business.Concrete
     public class BrandManager : IBrandService
     {
         IBrandRepository _brandRepository;
+        ICloudinaryService _cloudinaryService;
         IMapper _mapper; 
-        public BrandManager(IBrandRepository brandRepository,IMapper mapper)
+        public BrandManager(IBrandRepository brandRepository, IMapper mapper, ICloudinaryService cloudinaryService)
         {
             _brandRepository = brandRepository;
-            _mapper = mapper;   
+            _mapper = mapper;
+            _cloudinaryService = cloudinaryService;
         }
 
         [ValidationAspect(typeof(BrandValidator))]
         public async Task<IDataResult<BrandDetailDto>> AddAsync(BrandAddDto entity)
         {
-            var newBrand = _mapper.Map<Brand>(entity); 
-
+            var newBrand = _mapper.Map<Brand>(entity);
+          
             //newBrand.CreatedDate = DateTime.Now;
+            if (entity.Image != null && entity.Image.Length > 0)
+            {
+                var imagePath = Path.GetTempFileName(); // Get a temporary file path to store the uploaded image
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await entity.Image.CopyToAsync(stream);
+                }
 
+                var imageUrl  = await _cloudinaryService.UploadImageAsync(imagePath);
+
+                // Save the image URL to your brand model or perform any necessary operations
+                newBrand.ImageUrl = imageUrl;
+                // Create a new Brand model using the DTO and the uploaded image URL
+
+                // Delete the temporary image file
+                System.IO.File.Delete(imagePath);
+            }
+
+         
             var brandAdd = await _brandRepository.AddAsync(newBrand);
             var brandDto = _mapper.Map<BrandDetailDto>(brandAdd);
 

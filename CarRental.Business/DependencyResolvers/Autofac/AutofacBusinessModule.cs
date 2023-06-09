@@ -37,6 +37,8 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<ModelManager>().As<IModelService>();
             builder.RegisterType<ModelRepository>().As<IModelRepository>();
 
+            builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

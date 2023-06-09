@@ -21,7 +21,7 @@ namespace CarRental.WebAPI.Controllers.Areas.Admin
         [HttpPost]
         [Route("[action]")]
 
-        public async Task<IActionResult> AddNewbrand([FromForm]BrandAddDto brandAddDto)
+        public async Task<IActionResult> AddNewbrand([FromForm] BrandAddDto brandAddDto)
         {
             var result = await _brandService.AddAsync(brandAddDto);
             if (result != null)
@@ -51,7 +51,7 @@ namespace CarRental.WebAPI.Controllers.Areas.Admin
         [HttpPut]
         [Route("[action]")]
 
-        public async Task<IActionResult> UpdateBrand(BrandUpdateDto brandUpdateDto)
+        public async Task<IActionResult> UpdateBrand([FromForm] BrandUpdateDto brandUpdateDto)
         {
             var result = await _brandService.UpdateAsync(brandUpdateDto);
 

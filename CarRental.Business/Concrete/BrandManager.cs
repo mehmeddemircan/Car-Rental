@@ -7,6 +7,7 @@ using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.Concrete;
 using CarRental.Entities.DTOs.BrandDtos;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,27 +33,13 @@ namespace CarRental.Business.Concrete
         public async Task<IDataResult<BrandDetailDto>> AddAsync(BrandAddDto entity)
         {
             var newBrand = _mapper.Map<Brand>(entity);
-          
+
             //newBrand.CreatedDate = DateTime.Now;
-            if (entity.Image != null && entity.Image.Length > 0)
-            {
-                var imagePath = Path.GetTempFileName(); // Get a temporary file path to store the uploaded image
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await entity.Image.CopyToAsync(stream);
-                }
+            var imageUrl = await UploadImageAsync(entity.Image);
+            newBrand.ImageUrl = imageUrl;
 
-                var imageUrl  = await _cloudinaryService.UploadImageAsync(imagePath);
 
-                // Save the image URL to your brand model or perform any necessary operations
-                newBrand.ImageUrl = imageUrl;
-                // Create a new Brand model using the DTO and the uploaded image URL
 
-                // Delete the temporary image file
-                System.IO.File.Delete(imagePath);
-            }
-
-         
             var brandAdd = await _brandRepository.AddAsync(newBrand);
             var brandDto = _mapper.Map<BrandDetailDto>(brandAdd);
 
@@ -112,7 +99,8 @@ namespace CarRental.Business.Concrete
 
             var brand = _mapper.Map<Brand>(brandUpdateDto);
 
-
+            var imageUrl = await UploadImageAsync(brandUpdateDto.Image);
+            brand.ImageUrl = imageUrl;
             brand.UpdatedDate = DateTime.Now;
             brand.UpdatedBy = 1;
 
@@ -121,6 +109,27 @@ namespace CarRental.Business.Concrete
             var resultUpdateDto = _mapper.Map<BrandUpdateDto>(brandUpdate);
 
             return new SuccessDataResult<BrandUpdateDto>(resultUpdateDto, Messages.Updated);
+        }
+
+        private async Task<string> UploadImageAsync(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return null;
+            }
+
+            var imagePath = Path.GetTempFileName(); // Get a temporary file path to store the uploaded image
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            var imageUrl = await _cloudinaryService.UploadImageAsync(imagePath);
+
+            // Delete the temporary image file
+            System.IO.File.Delete(imagePath);
+
+            return imageUrl;
         }
     }
 }

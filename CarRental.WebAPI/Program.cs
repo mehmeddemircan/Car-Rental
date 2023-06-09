@@ -7,10 +7,14 @@ using CarRental.Core.Utilities.Security.Encryption;
 using CarRental.Core.Utilities.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using CarRental.Core.Utilities.Cloudinary;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -55,7 +59,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
+builder.Services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
 
 var app = builder.Build();
 

@@ -37,17 +37,15 @@ namespace CarRental.Business.Concrete
 
             var modelAdd = await _modelRepository.AddAsync(newModel);
             // Fetch the brand from the database based on the BrandID
-            var brand = await _brandRepository.GetAsync(x => x.Id == entity.BrandId);
+            bool brandAssigned = await AssignBrandToModel(modelAdd, entity.BrandId);
 
-            if (brand == null)
+            if (!brandAssigned)
             {
                 return new ErrorDataResult<ModelDetailDto>(null, "Geçersiz brand ID.");
             }
 
-            // Assign the retrieved brand to the new model
-            newModel.Brand = brand;
 
-           
+
             var modelDto = _mapper.Map<ModelDetailDto>(modelAdd);
 
             return new SuccessDataResult<ModelDetailDto>(modelDto, Messages.Added);

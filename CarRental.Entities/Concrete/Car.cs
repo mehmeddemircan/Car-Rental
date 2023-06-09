@@ -19,8 +19,9 @@ namespace CarRental.Entities.Concrete
 
         public  virtual Color Color { get; set; }
 
+        public string Description { get; set; }
         public int Year { get; set; }
-        public double Price { get; set; }
+        public int DailyPrice { get; set; }
 
 
     }

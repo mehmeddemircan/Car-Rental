@@ -183,8 +183,8 @@ namespace CarRental.DataAccess.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
@@ -264,8 +264,6 @@ namespace CarRental.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
-
                     b.ToTable("Models");
                 });
 
@@ -294,17 +292,6 @@ namespace CarRental.DataAccess.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("Model");
-                });
-
-            modelBuilder.Entity("CarRental.Entities.Concrete.Model", b =>
-                {
-                    b.HasOne("CarRental.Entities.Concrete.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
                 });
 #pragma warning restore 612, 618
         }

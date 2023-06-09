@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230609173955_addCarTableToDatabase")]
-    partial class addCarTableToDatabase
+    [Migration("20230609203941_createDatabase")]
+    partial class createDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,6 +171,9 @@ namespace CarRental.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
@@ -183,8 +186,8 @@ namespace CarRental.DataAccess.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
@@ -196,6 +199,8 @@ namespace CarRental.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
 
                     b.HasIndex("ColorId");
 
@@ -262,13 +267,17 @@ namespace CarRental.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
-
                     b.ToTable("Models");
                 });
 
             modelBuilder.Entity("CarRental.Entities.Concrete.Car", b =>
                 {
+                    b.HasOne("CarRental.Entities.Concrete.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarRental.Entities.Concrete.Color", "Color")
                         .WithMany()
                         .HasForeignKey("ColorId")
@@ -281,20 +290,11 @@ namespace CarRental.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Brand");
+
                     b.Navigation("Color");
 
                     b.Navigation("Model");
-                });
-
-            modelBuilder.Entity("CarRental.Entities.Concrete.Model", b =>
-                {
-                    b.HasOne("CarRental.Entities.Concrete.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
                 });
 #pragma warning restore 612, 618
         }

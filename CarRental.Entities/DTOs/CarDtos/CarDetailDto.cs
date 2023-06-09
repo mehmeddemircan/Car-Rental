@@ -14,10 +14,13 @@ namespace CarRental.Entities.DTOs.CarDtos
 
         public int Id { get; set; }
 
-        public ModelDetailDto Model { get; set; }
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
+        public int ModelId { get; set; }
+        public string ModelName { get; set; }
 
-        public ColorDetailDto Color { get; set; }
-
+        public int ColorId { get; set; }
+        public string ColorName { get; set; }
         public int Year { get; set; }
 
         public decimal Price { get; set; }

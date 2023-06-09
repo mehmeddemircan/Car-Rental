@@ -12,6 +12,6 @@ namespace CarRental.Entities.Concrete
      
         public string ModelName { get; set; }
         public int BrandId { get; set; }
-        public Brand Brand { get; set; }
+     
     }
 }

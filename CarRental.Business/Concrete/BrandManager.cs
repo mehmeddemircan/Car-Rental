@@ -3,6 +3,7 @@ using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
 using CarRental.Business.Validation.FluentValidation;
 using CarRental.Core.Aspects.Validation;
+using CarRental.Core.Utilities.Business;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.Concrete;
@@ -30,8 +31,16 @@ namespace CarRental.Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidator))]
-        public async Task<IDataResult<BrandDetailDto>> AddAsync(BrandAddDto entity)
+        public async Task<IResult> AddAsync(BrandAddDto entity)
         {
+
+            IResult result = BusinessRules.Run(CheckIfBrandName(entity.BrandName));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             var newBrand = _mapper.Map<Brand>(entity);
 
             //newBrand.CreatedDate = DateTime.Now;
@@ -43,7 +52,7 @@ namespace CarRental.Business.Concrete
             var brandAdd = await _brandRepository.AddAsync(newBrand);
             var brandDto = _mapper.Map<BrandDetailDto>(brandAdd);
 
-            return new SuccessDataResult<BrandDetailDto>(brandDto, Messages.Added);
+            return new SuccessResult(Messages.Added);
         }
 
         public async Task<IDataResult<bool>> DeleteAsync(int id)
@@ -130,6 +139,17 @@ namespace CarRental.Business.Concrete
             System.IO.File.Delete(imagePath);
 
             return imageUrl;
+        }
+
+        private IResult CheckIfBrandName(string brandName)
+        {
+            var result = _brandRepository.GetListAsync(m => m.BrandName == brandName).Result.Any();
+
+            if (result)
+            {
+                return new ErrorResult("zaten var bu isimde");
+            }
+            return new SuccessResult("basarili şekilde eklendi");
         }
     }
 }

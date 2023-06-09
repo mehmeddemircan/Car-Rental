@@ -12,7 +12,7 @@ namespace CarRental.Business.Abstract
 {
     public  interface IBrandService 
     {
-        Task<IDataResult<BrandDetailDto>> AddAsync(BrandAddDto entity);
+        Task<IResult> AddAsync(BrandAddDto entity);
 
 
         Task<IDataResult<IEnumerable<BrandDetailDto>>> GetListAsync(Expression<Func<Brand, bool>> filter = null);

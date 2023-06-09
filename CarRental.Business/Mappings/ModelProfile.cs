@@ -22,8 +22,10 @@ namespace CarRental.Business.Mappings
             CreateMap<Model, ModelUpdateDto>();
 
             CreateMap<ModelDetailDto, Model>();
-            CreateMap<Model, ModelDetailDto>().ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.Brand.Id))
-                                            .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.BrandName));
+            CreateMap<Model, ModelDetailDto>();
+
+            //.ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.Brand.Id))
+            //                                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.BrandName));
 
 
 

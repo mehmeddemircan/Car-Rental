@@ -147,7 +147,7 @@ namespace CarRental.Business.Concrete
                 return null;
             }
 
-            model.Brand = brand;
+            
             var modelDetail = _mapper.Map<ModelDetailDto>(model);
             return modelDetail;
         }

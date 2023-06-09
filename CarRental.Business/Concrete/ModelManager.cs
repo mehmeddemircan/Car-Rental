@@ -37,7 +37,7 @@ namespace CarRental.Business.Concrete
 
             var modelAdd = await _modelRepository.AddAsync(newModel);
             // Fetch the brand from the database based on the BrandID
-            bool brandAssigned = await AssignBrandToModel(modelAdd, entity.BrandId);
+            bool brandAssigned = await CheckBrandId(entity.BrandId);
 
             if (!brandAssigned)
             {
@@ -46,7 +46,7 @@ namespace CarRental.Business.Concrete
 
 
 
-            var modelDto = _mapper.Map<ModelDetailDto>(modelAdd);
+            var modelDto = await AssignBrandToModel(modelAdd,entity.BrandId);
 
             return new SuccessDataResult<ModelDetailDto>(modelDto, Messages.Added);
         }
@@ -64,11 +64,11 @@ namespace CarRental.Business.Concrete
             {
 
                 // Fetch the brand from the database based on the BrandID
-              await  AssignBrandToModel(model, model.BrandId);
+              var modelDto =  await  AssignBrandToModel(model, model.BrandId);
 
              
 
-                var modelDto = _mapper.Map<ModelDetailDto>(model);
+          
                 
                 
                 return new SuccessDataResult<ModelDetailDto>(modelDto, Messages.Listed);
@@ -83,8 +83,8 @@ namespace CarRental.Business.Concrete
             if (model != null)
             {
 
-                await AssignBrandToModel(model, model.BrandId);
-                var modelDto = _mapper.Map<ModelDetailDto>(model);
+               var modelDto =   await AssignBrandToModel(model, model.BrandId);
+               
                 return new SuccessDataResult<ModelDetailDto>(modelDto, Messages.Listed);
             }
             return new ErrorDataResult<ModelDetailDto>(null, Messages.NotListed);
@@ -126,8 +126,7 @@ namespace CarRental.Business.Concrete
 
             return new SuccessDataResult<ModelUpdateDto>(resultUpdateDto, Messages.Updated);
         }
-
-        private async Task<bool> AssignBrandToModel(Model model, int brandId)
+        private async Task<bool> CheckBrandId(int brandId)
         {
             var brand = await _brandRepository.GetAsync(x => x.Id == brandId);
 
@@ -136,8 +135,21 @@ namespace CarRental.Business.Concrete
                 return false;
             }
 
-            model.Brand = brand;
+           
             return true;
+        }
+        private async Task<ModelDetailDto> AssignBrandToModel(Model model, int brandId)
+        {
+            var brand = await _brandRepository.GetAsync(x => x.Id == brandId);
+
+            if (brand == null)
+            {
+                return null;
+            }
+
+            model.Brand = brand;
+            var modelDetail = _mapper.Map<ModelDetailDto>(model);
+            return modelDetail;
         }
     }
 }

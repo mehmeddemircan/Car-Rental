@@ -27,6 +27,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.AddProfile(new UserProfile());
     mc.AddProfile(new BrandProfile());
     mc.AddProfile(new ModelProfile());
+    mc.AddProfile(new ColorProfile());
    
 });
 var mapper = mapperConfig.CreateMapper();

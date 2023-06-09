@@ -64,12 +64,9 @@ namespace CarRental.Business.Concrete
             {
 
                 // Fetch the brand from the database based on the BrandID
-                bool brandAssigned = await AssignBrandToModel(model, model.BrandId);
+              await  AssignBrandToModel(model, model.BrandId);
 
-                if (!brandAssigned)
-                {
-                    return new ErrorDataResult<ModelDetailDto>(null, "Geçersiz brand ID.");
-                }
+             
 
                 var modelDto = _mapper.Map<ModelDetailDto>(model);
                 
@@ -86,12 +83,7 @@ namespace CarRental.Business.Concrete
             if (model != null)
             {
 
-                bool brandAssigned = await AssignBrandToModel(model, model.BrandId);
-
-                if (!brandAssigned)
-                {
-                    return new ErrorDataResult<ModelDetailDto>(null, "Geçersiz brand ID.");
-                }
+                await AssignBrandToModel(model, model.BrandId);
                 var modelDto = _mapper.Map<ModelDetailDto>(model);
                 return new SuccessDataResult<ModelDetailDto>(modelDto, Messages.Listed);
             }

@@ -147,17 +147,17 @@ namespace CarRental.Business.Concrete
             return carDetail;
         }
 
-        private async Task<bool> AssignColorToCar(Car car, int colorId)
-        {
-            var color = await _colorRepository.GetAsync(x => x.Id == colorId);
+        //private async Task<bool> AssignColorToCar(Car car, int colorId)
+        //{
+        //    var color = await _colorRepository.GetAsync(x => x.Id == colorId);
 
-            if (color == null)
-            {
-                return false;
-            }
+        //    if (color == null)
+        //    {
+        //        return false;
+        //    }
 
-            car.Color = color;
-            return true;
-        }
+        //    car.Color = color;
+        //    return true;
+        //}
     }
 }

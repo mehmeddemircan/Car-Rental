@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using CarRental.Business.Abstract;
+using CarRental.Business.BusinessAspects.Autofac;
 using CarRental.Business.Constants;
 using CarRental.Core.Entities.Concrete.Auth;
 using CarRental.Core.Utilities.Results;
@@ -42,6 +43,7 @@ namespace  CarRental.Business.Concrete
             return _userRepository.Get(u => u.Email == email);
         }
 
+        //[SecuredOperation("admin")]
         public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync(Expression<Func<User, bool>> filter = null)
         {
             if (filter == null)

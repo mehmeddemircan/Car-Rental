@@ -59,7 +59,5 @@ namespace CarRental.WebAPI.Controllers
             return BadRequest();
         }
 
-        //Todo : ARABANIN YORUMLARINI AL 
-        //Todo: KULLANICININ YORUMLARINI AL 
     }
 }

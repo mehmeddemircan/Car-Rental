@@ -19,6 +19,9 @@ namespace CarRental.Core.Entities.Concrete.Auth
         public DateTime? DateOfBirth { get; set; }
         public string? Address { get; set; }
 
+        public int OperationClaimId { get; set; } 
+
+     
 
     }
 }

@@ -10,6 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CarRental.Core.Utilities.Cloudinary;
+using CarRental.Core.Extensions;
+using CarRental.Core.IoC;
+using CarRental.Core.DependencyResolvers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.AddProfile(new RentalProfile());
     mc.AddProfile(new CommentProfile());
     mc.AddProfile(new PackageProfile());
+    mc.AddProfile(new UserOperationClaimProfile());
 });
 var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -64,6 +68,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+
+
+//core module httpcontext dependency 
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+{
+    new CoreModule()
+});
+
+builder.Services.AddCors(options =>
+{
+    var frontendURL = configuration.GetValue<string>("frontend_url");
+
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
+    });
+
+});
 
 var app = builder.Build();
 

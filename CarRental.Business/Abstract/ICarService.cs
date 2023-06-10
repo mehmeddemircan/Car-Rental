@@ -13,7 +13,7 @@ namespace CarRental.Business.Abstract
     public interface ICarService
     {
 
-        Task<IDataResult<CarDetailDto>> AddAsync(CarAddDto entity);
+        Task<IResult> AddAsync(CarAddDto entity);
 
 
         Task<IDataResult<IEnumerable<CarDetailDto>>> GetListAsync(Expression<Func<Car, bool>> filter = null);

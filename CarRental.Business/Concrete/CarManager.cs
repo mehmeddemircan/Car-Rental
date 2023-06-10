@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
+using CarRental.Business.Validation.FluentValidation;
+using CarRental.Core.Aspects.Validation;
+using CarRental.Core.Utilities.Business;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.Concrete;
@@ -32,26 +35,20 @@ namespace CarRental.Business.Concrete
             _brandRepository = brandRepository;
             _packageRepository = packageRepository; 
         }
-        public async Task<IDataResult<CarDetailDto>> AddAsync(CarAddDto entity)
+
+        [ValidationAspect(typeof(CarValidator))]
+        public async Task<IResult> AddAsync(CarAddDto entity)
         {
+
+            IResult colorResult  =   BusinessRules.Run(CheckIfColorId(entity.ColorId));
+            if (colorResult != null)
+            {
+                return colorResult;
+            }
+
             var newCar = _mapper.Map<Car>(entity);
 
             var carAdd = await _carRepository.AddAsync(newCar);
-
-            //bool modelAssigned = await AssignModelToCar(carAdd, entity.ModelId);
-
-            //if (!modelAssigned)
-            //{
-            //    return new ErrorDataResult<CarDetailDto>(null, "Geçersiz model ID.");
-            //}
-
-
-            //bool colorAssinged = await AssignColorToCar(carAdd, entity.ColorId);
-
-            //if (!colorAssinged)
-            //{
-            //    return new ErrorDataResult<CarDetailDto>(null, "Geçersiz color ID.");
-            //}
 
             var carDto = await AssignCarDetails(carAdd, entity.ModelId, entity.BrandId, entity.ColorId,entity.PackageId); 
 
@@ -104,14 +101,33 @@ namespace CarRental.Business.Concrete
                 var response = await _carRepository.GetListAsync();
 
                 var responseCarDetailDto = _mapper.Map<IEnumerable<CarDetailDto>>(response);
-                return new SuccessDataResult<IEnumerable<CarDetailDto>>(responseCarDetailDto, Messages.Listed);
+
+                List<CarDetailDto> cars = new List<CarDetailDto>();
+
+                foreach (var car in response)
+                {
+                    var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId, car.PackageId);
+                    cars.Add(carDto);
+                }
+
+                return new SuccessDataResult<IEnumerable<CarDetailDto>>(cars, Messages.Listed);
             }
             else
             {
                 var response = await _carRepository.GetListAsync(filter);
 
                 var responseCarDetailDto = _mapper.Map<IEnumerable<CarDetailDto>>(response);
-                return new SuccessDataResult<IEnumerable<CarDetailDto>>(responseCarDetailDto, Messages.Listed);
+
+                List<CarDetailDto> cars = new List<CarDetailDto>();
+
+                foreach (var car in response)
+                {
+                    var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId, car.PackageId);
+                    cars.Add(carDto);
+                }
+
+
+                return new SuccessDataResult<IEnumerable<CarDetailDto>>(cars, Messages.Listed);
             }
         }
 
@@ -151,17 +167,20 @@ namespace CarRental.Business.Concrete
             return carDetail;
         }
 
-        //private async Task<bool> AssignColorToCar(Car car, int colorId)
-        //{
-        //    var color = await _colorRepository.GetAsync(x => x.Id == colorId);
+        private  IResult CheckIfColorId(int colorId)
+        {
+            var result =  _colorRepository.GetAsync(x => x.Id == colorId).Result;
+            if (result == null)
+            {
+                return new ErrorResult("Geçersiz color Id");
+            }
+            return new SuccessResult("Geçerli Color Id");
+        }
+        //Todo: Brand business rule
+        //Todo : Model business rule 
+        //Todo : Package : Business rule 
 
-        //    if (color == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    car.Color = color;
-        //    return true;
-        //}
+        //Todo : Markaların modellerini al 
+        //Todo : Modellerin paketlerini al 
     }
 }

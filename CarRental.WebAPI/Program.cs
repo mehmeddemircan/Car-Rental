@@ -31,6 +31,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.AddProfile(new CarProfile()); 
     mc.AddProfile(new RentalProfile());
     mc.AddProfile(new CommentProfile());
+    mc.AddProfile(new PackageProfile());
 });
 var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

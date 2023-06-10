@@ -62,7 +62,7 @@ namespace CarRental.Business.Concrete
             if (operationClaim != null)
             {
 
-
+             
                 return new SuccessDataResult<OperationClaim>(operationClaim, Messages.Listed);
             }
             return new ErrorDataResult<OperationClaim>(null, Messages.NotListed);

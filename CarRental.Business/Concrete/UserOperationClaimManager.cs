@@ -19,12 +19,16 @@ namespace CarRental.Business.Concrete
         //Todo : Role değiştirme controller eklenecek 
 
         IUserOperationClaimRepository _userOperationClaimRepository;
+        IUserRepository _userRepository;
+        IOperationClaimRepository _operationClaimRepository;
         IMapper _mapper; 
 
-        public UserOperationClaimManager(IUserOperationClaimRepository userOperationClaimRepository, IMapper mapper)
+        public UserOperationClaimManager(IUserOperationClaimRepository userOperationClaimRepository, IMapper mapper, IUserRepository userRepository, IOperationClaimRepository operationClaimRepository)
         {
             _userOperationClaimRepository = userOperationClaimRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
+            _operationClaimRepository = operationClaimRepository;
         }
 
         public async Task<IResult> AddAsync(UserOperationClaimAddDto entity)
@@ -53,8 +57,8 @@ namespace CarRental.Business.Concrete
             var userOperationClaim = await _userOperationClaimRepository.GetAsync(filter);
             if (userOperationClaim != null)
             {
-                var userOperationClaimDto = _mapper.Map<UserOperationClaimDetailDto>(userOperationClaim);
-                return new SuccessDataResult<UserOperationClaimDetailDto>(userOperationClaimDto, Messages.Listed);
+                var userOperationClaimDetailDto = await AssignOperationClaimDetails(userOperationClaim, userOperationClaim.UserId, userOperationClaim.OperationClaimId);
+                return new SuccessDataResult<UserOperationClaimDetailDto>(userOperationClaimDetailDto, Messages.Listed);
 
             }
             return new ErrorDataResult<UserOperationClaimDetailDto>(null, Messages.NotListed);
@@ -65,8 +69,8 @@ namespace CarRental.Business.Concrete
             var userOperationClaim = await _userOperationClaimRepository.GetAsync(x => x.Id == id);
             if (userOperationClaim != null)
             {
-                var userOperationClaimDto = _mapper.Map<UserOperationClaimDetailDto>(userOperationClaim);
-                return new SuccessDataResult<UserOperationClaimDetailDto>(userOperationClaimDto, Messages.Listed);
+                var userOperationClaimDetailDto = await AssignOperationClaimDetails(userOperationClaim, userOperationClaim.UserId, userOperationClaim.OperationClaimId);
+                return new SuccessDataResult<UserOperationClaimDetailDto>(userOperationClaimDetailDto, Messages.Listed);
 
             }
             return new ErrorDataResult<UserOperationClaimDetailDto>(null, Messages.NotListed);
@@ -105,7 +109,22 @@ namespace CarRental.Business.Concrete
 
             return new SuccessDataResult<UserOperationClaimUpdateDto>(resultUpdateDto, Messages.Updated);
         }
+        private async Task<UserOperationClaimDetailDto> AssignOperationClaimDetails(UserOperationClaim userOperationClaim, int userId, int operationClaimId)
+        {
+            var user = await _userRepository.GetAsync(x => x.Id == userId);
+            var operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == operationClaimId);
+         
+            if (user == null || operationClaim == null )
+            {
+                return null;
+            }
 
-      
+            userOperationClaim.User = user;
+            userOperationClaim.OperationClaim = operationClaim;
+           
+            var userOperationClaimDto = _mapper.Map<UserOperationClaimDetailDto>(userOperationClaim);
+            return userOperationClaimDto;
+        }
+
     }
 }

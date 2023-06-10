@@ -21,12 +21,12 @@ namespace CarRental.Business.Mappings
             CreateMap<UserOperationClaim, UserOperationClaimUpdateDto>();
 
             CreateMap<UserOperationClaimDetailDto, UserOperationClaim>();
-            CreateMap<UserOperationClaim, UserOperationClaimDetailDto>();
+            CreateMap<UserOperationClaim, UserOperationClaimDetailDto>()
                 
-                //.ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.User.FirstName))
-                //.ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.User.LastName))
-                //.ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.OperationClaim.Name));
-       
+                .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.User.FirstName))
+                .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.User.LastName))
+                .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.OperationClaim.Name));
+
             // eklenecek for memberler
         }
     }

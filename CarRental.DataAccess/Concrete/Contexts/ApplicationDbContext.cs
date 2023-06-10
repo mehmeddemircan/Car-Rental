@@ -29,6 +29,8 @@ namespace CarRental.DataAccess.Concrete.Contexts
 
         public DbSet<Model> Models { get; set; }
 
+        public DbSet<Package> Packages { get; set; }
+
         public DbSet<Color> Colors { get; set; }
 
         public DbSet<Car> Cars { get; set; }

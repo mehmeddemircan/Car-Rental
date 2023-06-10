@@ -56,6 +56,9 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>();
             builder.RegisterType<UserOperationClaimRepository>().As<IUserOperationClaimRepository>();
 
+            builder.RegisterType<OperationClaimManager>().As<IOperationClaimService>();
+            builder.RegisterType<OperationClaimRepository>().As<IOperationClaimRepository>();
+
             builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

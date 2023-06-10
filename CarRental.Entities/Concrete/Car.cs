@@ -23,6 +23,6 @@ namespace CarRental.Entities.Concrete
         public int Year { get; set; }
         public int DailyPrice { get; set; }
 
-
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

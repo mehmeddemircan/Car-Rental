@@ -35,5 +35,7 @@ namespace CarRental.DataAccess.Concrete.Contexts
 
         public DbSet<Rental> Rentals { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
     }
 }

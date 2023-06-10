@@ -39,5 +39,7 @@ namespace CarRental.DataAccess.Concrete.Contexts
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<SellerForm> SellerForms { get; set; }
+
     }
 }

@@ -20,11 +20,13 @@ namespace  CarRental.Business.Concrete
     {
 
         IUserRepository _userRepository;
+        IOperationClaimRepository _operationClaimRepository;
         IMapper _mapper; 
-        public UserManager(IUserRepository userRepository,IMapper mapper)
+        public UserManager(IUserRepository userRepository, IMapper mapper, IOperationClaimRepository operationClaimRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _operationClaimRepository = operationClaimRepository;
         }
 
         public List<OperationClaim> GetClaims(User user)
@@ -66,7 +68,7 @@ namespace  CarRental.Business.Concrete
             var user = await _userRepository.GetAsync(filter);
             if (user != null)
             {
-                var userDto = _mapper.Map<UserDto>(user);
+                var userDto = await AssignOperationClaimDetails(user, user.OperationClaimId);
                 return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
             }
 
@@ -78,7 +80,7 @@ namespace  CarRental.Business.Concrete
            var user = await _userRepository.GetAsync(x => x.Id == id);
             if (user != null)
             {
-                var userDto = _mapper.Map<UserDto>(user);
+                var userDto = await AssignOperationClaimDetails(user, user.OperationClaimId);
                 return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
             }
             return new ErrorDataResult<UserDto>(null, Messages.NotListed);
@@ -113,7 +115,22 @@ namespace  CarRental.Business.Concrete
           
             return new SuccessDataResult<UserUpdateDto>(resultUpdate, Messages.Updated);
         }
+        private async Task<UserDto> AssignOperationClaimDetails(User user, int operationClaimId)
+        {
+            var operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == operationClaimId);
+       
 
-      
+            if (operationClaim == null)
+            {
+                return null;
+            }
+
+            user.OperationClaim = operationClaim;
+          
+
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
     }
 }

@@ -49,8 +49,8 @@ namespace CarRental.Business.Concrete
 
 
 
-            var brandAdd = await _brandRepository.AddAsync(newBrand);
-            var brandDto = _mapper.Map<BrandDetailDto>(brandAdd);
+            await _brandRepository.AddAsync(newBrand);
+        
 
             return new SuccessResult(Messages.Added);
         }

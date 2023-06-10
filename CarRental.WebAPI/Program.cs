@@ -36,6 +36,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.AddProfile(new CommentProfile());
     mc.AddProfile(new PackageProfile());
     mc.AddProfile(new UserOperationClaimProfile());
+    mc.AddProfile(new SellerFormProfile());
 });
 var mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

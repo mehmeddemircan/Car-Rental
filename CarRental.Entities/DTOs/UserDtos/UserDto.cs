@@ -25,5 +25,7 @@ namespace CarRental.Entities.DTOs.UserDtos
 
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
+
+        public string RoleName { get; set; }
     }
 }

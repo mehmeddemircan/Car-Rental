@@ -21,14 +21,16 @@ namespace CarRental.Business.Concrete
         IModelRepository _modelRepository;
         IColorRepository _colorRepository;  
         IBrandRepository _brandRepository;
+        IPackageRepository _packageRepository;
         IMapper _mapper; 
-        public CarManager(ICarRepository carRepository, IMapper mapper, IModelRepository modelRepository, IColorRepository colorRepository, IBrandRepository brandRepository)
+        public CarManager(ICarRepository carRepository, IMapper mapper, IModelRepository modelRepository, IColorRepository colorRepository, IBrandRepository brandRepository,IPackageRepository packageRepository)
         {
             _carRepository = carRepository;
             _mapper = mapper;
             _modelRepository = modelRepository;
             _colorRepository = colorRepository;
             _brandRepository = brandRepository;
+            _packageRepository = packageRepository; 
         }
         public async Task<IDataResult<CarDetailDto>> AddAsync(CarAddDto entity)
         {
@@ -51,7 +53,7 @@ namespace CarRental.Business.Concrete
             //    return new ErrorDataResult<CarDetailDto>(null, "Geçersiz color ID.");
             //}
 
-            var carDto = await AssignCarDetails(carAdd, entity.ModelId, entity.BrandId, entity.ColorId); 
+            var carDto = await AssignCarDetails(carAdd, entity.ModelId, entity.BrandId, entity.ColorId,entity.PackageId); 
 
             return new SuccessDataResult<CarDetailDto>(carDto, Messages.Added);
         }
@@ -72,7 +74,7 @@ namespace CarRental.Business.Concrete
                 // Fetch the brand from the database based on the BrandID
 
 
-                var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId);
+                var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId,car.PackageId);
 
 
                 return new SuccessDataResult<CarDetailDto>(carDto, Messages.Listed);
@@ -87,7 +89,7 @@ namespace CarRental.Business.Concrete
             if (car != null)
             {
 
-                var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId); 
+                var carDto = await AssignCarDetails(car, car.ModelId, car.BrandId, car.ColorId,car.PackageId); 
                 
                 return new SuccessDataResult<CarDetailDto>(carDto, Messages.Listed);
             }
@@ -130,12 +132,13 @@ namespace CarRental.Business.Concrete
             return new SuccessDataResult<CarUpdateDto>(resultUpdateDto, Messages.Updated);
         }
 
-        private async Task<CarDetailDto> AssignCarDetails(Car car, int modelId,int brandId ,int colorId)
+        private async Task<CarDetailDto> AssignCarDetails(Car car, int modelId,int brandId ,int colorId,int packageId)
         {
             var model = await _modelRepository.GetAsync(x => x.Id == modelId);
             var brand = await _brandRepository.GetAsync(x => x.Id == brandId);
             var color = await _colorRepository.GetAsync(x => x.Id == colorId);
-            if (model == null || brand == null || color == null)
+            var package = await _packageRepository.GetAsync(x => x.Id == packageId);
+            if (model == null || brand == null || color == null || package == null)
             {
                 return null;
             }
@@ -143,6 +146,7 @@ namespace CarRental.Business.Concrete
             car.Brand = brand; 
             car.Model = model;
             car.Color = color;
+            car.Package = package;
             var carDetail = _mapper.Map<CarDetailDto>(car);
             return carDetail;
         }

@@ -15,6 +15,10 @@ namespace CarRental.Entities.Concrete
         public int ModelId { get; set; }
         public virtual Model Model { get; set; }
 
+        public int PackageId { get; set; }
+
+        public virtual Package Package { get; set; }
+
         public int ColorId { get; set; }
 
         public  virtual Color Color { get; set; }

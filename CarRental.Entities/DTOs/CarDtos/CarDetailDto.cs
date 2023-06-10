@@ -18,7 +18,8 @@ namespace CarRental.Entities.DTOs.CarDtos
         public string BrandName { get; set; }
         public int ModelId { get; set; }
         public string ModelName { get; set; }
-
+        public int PackageId { get; set; }
+        public string PackageName { get; set; }
         public int ColorId { get; set; }
         public string ColorName { get; set; }
         public int Year { get; set; }

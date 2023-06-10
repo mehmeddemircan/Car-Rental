@@ -50,6 +50,9 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<CommentManager>().As<ICommentService>();
             builder.RegisterType<CommentRepository>().As<ICommentRepository>();
 
+            builder.RegisterType<PackageManager>().As<IPackageService>();
+            builder.RegisterType<PackageRepository>().As<IPackageRepository>();
+
             builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

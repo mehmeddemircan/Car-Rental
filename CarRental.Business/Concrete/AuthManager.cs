@@ -1,6 +1,7 @@
 ﻿
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
+using CarRental.Core.Aspects.Caching;
 using CarRental.Core.Entities.Concrete.Auth;
 using CarRental.Core.Utilities.Results;
 using CarRental.Core.Utilities.Security.Hashing;
@@ -26,6 +27,7 @@ namespace CarRental.Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
+        [CacheRemoveAspect("IUserService.GetListAsync")]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;

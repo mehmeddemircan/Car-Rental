@@ -42,5 +42,17 @@ namespace CarRental.WebAPI.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("[action]/{brandId:int}")]
+        public async Task<IActionResult> GetModelsOfBrand(int brandId)
+        {
+            var result = await _modelService.GetAsync(x => x.BrandId == brandId);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
     }
 }

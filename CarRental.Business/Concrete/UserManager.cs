@@ -3,6 +3,7 @@ using AutoMapper;
 using CarRental.Business.Abstract;
 using CarRental.Business.BusinessAspects.Autofac;
 using CarRental.Business.Constants;
+using CarRental.Core.Aspects.Caching;
 using CarRental.Core.Entities.Concrete.Auth;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
@@ -46,6 +47,7 @@ namespace  CarRental.Business.Concrete
         }
 
         //[SecuredOperation("admin")]
+        [CacheAspect(10)]
         public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync(Expression<Func<User, bool>> filter = null)
         {
             if (filter == null)

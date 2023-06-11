@@ -2,6 +2,8 @@
 using Autofac.Extras.DynamicProxy;
 using CarRental.Business.Abstract;
 using CarRental.Business.Concrete;
+using CarRental.Core.CrossCuttingConcerns.Caching;
+using CarRental.Core.CrossCuttingConcerns.Caching.Microsoft;
 using CarRental.Core.Utilities.Interceptors;
 using CarRental.Core.Utilities.Security.JWT;
 using CarRental.DataAccess.Abstract;
@@ -63,6 +65,8 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<SellerFormRepository>().As<ISellerFormRepository>();
 
             builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
+            builder.RegisterType<CacheManager>().As<ICacheService>();
+
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

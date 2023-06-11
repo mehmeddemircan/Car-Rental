@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
+using CarRental.Core.Aspects.Transaction;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
 using CarRental.Entities.Concrete;
@@ -25,14 +26,15 @@ namespace CarRental.Business.Concrete
             _mapper = mapper;
         }
 
+        //[TransactionScopeAspect]
         public async Task<IDataResult<ColorDetailDto>> AddAsync(ColorAddDto entity)
         {
             var newColor = _mapper.Map<Color>(entity);
 
             var colorAdd = await _colorRepository.AddAsync(newColor);
             // Fetch the brand from the database based on the BrandID
-        
 
+            //throw new Exception("Hata Oluştu");
 
             var colorDto = _mapper.Map<ColorDetailDto>(colorAdd);
 

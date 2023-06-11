@@ -16,7 +16,7 @@ namespace CarRental.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
+        [Route("[action]/{modelId:int}")]
 
         public async Task<IActionResult> GetPackagesByModel(int modelId )
         {

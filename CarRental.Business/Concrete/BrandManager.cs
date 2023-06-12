@@ -2,7 +2,9 @@
 using CarRental.Business.Abstract;
 using CarRental.Business.Constants;
 using CarRental.Business.Validation.FluentValidation;
+using CarRental.Core.Aspects.Logging;
 using CarRental.Core.Aspects.Validation;
+using CarRental.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using CarRental.Core.Utilities.Business;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
@@ -15,6 +17,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using IResult = CarRental.Core.Utilities.Results.IResult;
 
 namespace CarRental.Business.Concrete
 {
@@ -31,7 +34,7 @@ namespace CarRental.Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidator))]
-        public async Task<IResult> AddAsync(BrandAddDto entity)
+        public async Task<Core.Utilities.Results.IResult> AddAsync(BrandAddDto entity)
         {
 
             IResult result = BusinessRules.Run(CheckIfBrandName(entity.BrandName));
@@ -62,6 +65,7 @@ namespace CarRental.Business.Concrete
 
         }
 
+       
         public async Task<IDataResult<BrandDetailDto>> GetAsync(Expression<Func<Brand, bool>> filter)
         {
             var brand = await _brandRepository.GetAsync(filter);
@@ -84,7 +88,7 @@ namespace CarRental.Business.Concrete
             }
             return new ErrorDataResult<BrandDetailDto>(null, Messages.NotListed);
         }
-
+        //[LogAspect(typeof(FileLogger))]
         public async Task<IDataResult<IEnumerable<BrandDetailDto>>> GetListAsync(Expression<Func<Brand, bool>> filter = null)
         {
             if (filter == null)
@@ -151,5 +155,7 @@ namespace CarRental.Business.Concrete
             }
             return new SuccessResult("basarili şekilde eklendi");
         }
+
+        
     }
 }

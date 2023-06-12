@@ -1,5 +1,8 @@
 ﻿using CarRental.Business.Abstract;
+using CarRental.Business.BusinessAspects.Autofac;
 using CarRental.Business.Constants;
+using CarRental.Core.Aspects.Logging;
+using CarRental.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using CarRental.Core.Entities.Concrete.Auth;
 using CarRental.Core.Utilities.Results;
 using CarRental.DataAccess.Abstract;
@@ -35,6 +38,8 @@ namespace CarRental.Business.Concrete
 
             return new SuccessDataResult<bool>(isDelete, Messages.Deleted);
         }
+
+        //[LogAspect(typeof(FileLogger))]
 
         public async Task<IDataResult<IEnumerable<OperationClaim>>> GetAllAsync(Expression<Func<OperationClaim, bool>> filter = null)
         {

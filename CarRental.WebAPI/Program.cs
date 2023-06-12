@@ -13,10 +13,14 @@ using CarRental.Core.Utilities.Cloudinary;
 using CarRental.Core.Extensions;
 using CarRental.Core.IoC;
 using CarRental.Core.DependencyResolvers;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 
 
 builder.Services.AddControllers();
@@ -25,6 +29,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCustomHttpContextAccessor();
 builder.Services.AddMemoryCache();
+
+// Register Serilog with the logging services
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+    loggingBuilder.AddSerilog();
+});
+
 
 #region AutoMapper
 var mapperConfig = new MapperConfiguration(mc =>

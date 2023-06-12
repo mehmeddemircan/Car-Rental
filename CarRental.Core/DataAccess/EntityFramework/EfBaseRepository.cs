@@ -67,6 +67,14 @@ namespace CarRental.Core.DataAccess.EntityFramework
             }
         }
 
+        public async Task<IEnumerable<TEntity>> GetListAsyncPagination(int pageNumber ,int pageSize,Expression<Func<TEntity, bool>> filter)
+        {
+            using (var context = new TContext())
+            {
+                return filter == null ? await context.Set<TEntity>().Skip((pageNumber -1) * pageSize).Take(pageSize).ToListAsync() : await context.Set<TEntity>().Where(filter).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            }
+        }
+
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             using (var context = new TContext())

@@ -32,6 +32,22 @@ namespace CarRental.WebAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Route("[action]")]
+
+        public async Task<IActionResult> GetColorswithPage(int pageNumber,int pageSize)
+        {
+            var result = await _colorService.GetListAsyncPagination(pageNumber,pageSize);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest();
+
+        }
+
+
 
         [HttpGet]
         [Route("[action]/{colorId:int}")]

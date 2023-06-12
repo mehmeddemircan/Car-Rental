@@ -24,5 +24,7 @@ namespace CarRental.Business.Abstract
         Task<IDataResult<ColorUpdateDto>> UpdateAsync(ColorUpdateDto colorUpdateDto);
 
         Task<IDataResult<bool>> DeleteAsync(int id);
+
+        Task<IDataResult<IEnumerable<ColorDetailDto>>> GetListAsyncPagination(int pageNumber,int pageSize,Expression<Func<Color,bool>> filter= null);
     }
 }

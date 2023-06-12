@@ -92,6 +92,25 @@ namespace CarRental.Business.Concrete
             }
         }
 
+        public async Task<IDataResult<IEnumerable<ColorDetailDto>>> GetListAsyncPagination(int pageNumber, int pageSize, Expression<Func<Color, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+
+                var response = await _colorRepository.GetListAsyncPagination(pageNumber,pageSize);
+
+                var responseColorDetailDto = _mapper.Map<IEnumerable<ColorDetailDto>>(response);
+                return new SuccessDataResult<IEnumerable<ColorDetailDto>>(responseColorDetailDto, Messages.Listed);
+            }
+            else
+            {
+                var response = await _colorRepository.GetListAsyncPagination(pageNumber,pageSize,filter);
+
+                var responseColorDetailDto = _mapper.Map<IEnumerable<ColorDetailDto>>(response);
+                return new SuccessDataResult<IEnumerable<ColorDetailDto>>(responseColorDetailDto, Messages.Listed);
+            }
+        }
+
         public async Task<IDataResult<ColorUpdateDto>> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
             var getModel = await _colorRepository.GetAsync(x => x.Id == colorUpdateDto.Id);

@@ -22,6 +22,9 @@ namespace CarRental.DataAccess
         
         Task<bool> DeleteAsync(int id);
 
+
+        Task<IEnumerable<TEntity>> GetListAsyncPagination(int pageNumber,int pageSize,Expression<Func<TEntity, bool>> filter = null);  
+
         TEntity Get(Expression<Func<TEntity, bool>> filter);
 
     }

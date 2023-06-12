@@ -1,4 +1,6 @@
-﻿using Castle.DynamicProxy;
+﻿using CarRental.Core.Aspects.Exception;
+using CarRental.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
+using Castle.DynamicProxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,8 @@ namespace CarRental.Core.Utilities.Interceptors
             var methodAttributes = type.GetMethod(method.Name)
                 .GetCustomAttributes<MethodInterceptionBaseAttribute>(true);
             classAttributes.AddRange(methodAttributes);
+            //Exception Log
+            classAttributes.Add(new  ExceptionLogAspect(typeof(FileLogger)));
 
 
             return (IInterceptor[])classAttributes.OrderBy(x => x.Priority).ToArray();

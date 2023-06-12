@@ -91,9 +91,11 @@ namespace CarRental.Business.Concrete
         //[LogAspect(typeof(FileLogger))]
         public async Task<IDataResult<IEnumerable<BrandDetailDto>>> GetListAsync(Expression<Func<Brand, bool>> filter = null)
         {
+
             if (filter == null)
             {
-
+                // Exception 
+                //throw new UnauthorizedAccessException("UnAuthorized"); 
                 var response = await _brandRepository.GetListAsync();
                 var responseBrandDetailDto = _mapper.Map<IEnumerable<BrandDetailDto>>(response);
                 return new SuccessDataResult<IEnumerable<BrandDetailDto>>(responseBrandDetailDto, Messages.Listed);

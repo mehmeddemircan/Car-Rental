@@ -30,7 +30,7 @@ namespace CarRental.Core.Aspects.Transaction
                     transactionScope.Complete();
 
                 }
-                catch (Exception)
+                catch (System.Exception)
                 {
                     transactionScope.Dispose();
                     throw ;

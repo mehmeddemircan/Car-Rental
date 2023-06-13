@@ -67,7 +67,9 @@ namespace CarRental.Business.DependencyResolvers.Autofac
 
             builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
             builder.RegisterType<CacheManager>().As<ICacheService>();
+            builder.RegisterType<PaymentManager>().As<IPaymentService>();
             builder.RegisterType<FileLogger>();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

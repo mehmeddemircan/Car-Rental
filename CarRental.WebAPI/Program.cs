@@ -15,6 +15,7 @@ using CarRental.Core.IoC;
 using CarRental.Core.DependencyResolvers;
 using Serilog;
 using Serilog.Events;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +68,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterMod
 var provider = builder.Services.BuildServiceProvider();
 var configuration = provider.GetRequiredService<IConfiguration>();
 var tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>();
+StripeConfiguration.ApiKey = configuration.GetSection("Stripe").GetValue<string>("SecretKey");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

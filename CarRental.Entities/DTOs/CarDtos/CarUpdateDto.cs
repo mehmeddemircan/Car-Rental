@@ -11,6 +11,7 @@ namespace CarRental.Entities.DTOs.CarDtos
     {
         public int Id { get; set; }
 
+        public int CompanyId { get; set; }
         public string Description { get; set; }
         public int BrandId { get; set; }
         public int ModelId { get; set; }

@@ -1,22 +1,19 @@
-﻿using CarRental.Core.Entities.Concrete;
-using CarRental.Core.Entities.Concrete.Auth;
+﻿using CarRental.Core.Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRental.Entities.Concrete
+namespace CarRental.Entities.DTOs.CompanyDtos
 {
-    public class Company : AuditableEntity
+    public class CompanyUpdateDto : IDto
     {
+
+        public int Id { get; set; }
 
         public string CompanyName { get; set; }
 
         public int UserId { get; set; }
-
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,7 @@ namespace CarRental.Core.Entities.Concrete.Auth
         public string? Address { get; set; }
 
 
-        public int OperationClaimId { get; set; }
 
-        public virtual OperationClaim OperationClaim { get; set; }
 
 
 

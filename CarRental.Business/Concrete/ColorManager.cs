@@ -113,7 +113,7 @@ namespace CarRental.Business.Concrete
 
         public async Task<IDataResult<ColorUpdateDto>> UpdateAsync(ColorUpdateDto colorUpdateDto)
         {
-            var getModel = await _colorRepository.GetAsync(x => x.Id == colorUpdateDto.Id);
+            var getColor = await _colorRepository.GetAsync(x => x.Id == colorUpdateDto.Id);
 
             var color = _mapper.Map<Color>(colorUpdateDto);
 

@@ -70,7 +70,7 @@ namespace  CarRental.Business.Concrete
             var user = await _userRepository.GetAsync(filter);
             if (user != null)
             {
-                var userDto = await AssignOperationClaimDetails(user, user.OperationClaimId);
+                var userDto = _mapper.Map<UserDto>(user);
                 return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
             }
 
@@ -82,7 +82,7 @@ namespace  CarRental.Business.Concrete
            var user = await _userRepository.GetAsync(x => x.Id == id);
             if (user != null)
             {
-                var userDto = await AssignOperationClaimDetails(user, user.OperationClaimId);
+                var userDto = _mapper.Map<UserDto>(user);
                 return new SuccessDataResult<UserDto>(userDto, Messages.Listed);
             }
             return new ErrorDataResult<UserDto>(null, Messages.NotListed);
@@ -117,22 +117,22 @@ namespace  CarRental.Business.Concrete
           
             return new SuccessDataResult<UserUpdateDto>(resultUpdate, Messages.Updated);
         }
-        private async Task<UserDto> AssignOperationClaimDetails(User user, int operationClaimId)
-        {
-            var operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == operationClaimId);
+        //private async Task<UserDto> AssignOperationClaimDetails(User user, int operationClaimId)
+        //{
+        //    var operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == operationClaimId);
        
 
-            if (operationClaim == null)
-            {
-                return null;
-            }
+        //    if (operationClaim == null)
+        //    {
+        //        return null;
+        //    }
 
-            user.OperationClaim = operationClaim;
+        //    user.OperationClaim = operationClaim;
           
 
-            var userDto = _mapper.Map<UserDto>(user);
-            return userDto;
-        }
+        //    var userDto = _mapper.Map<UserDto>(user);
+        //    return userDto;
+        //}
 
     }
 }

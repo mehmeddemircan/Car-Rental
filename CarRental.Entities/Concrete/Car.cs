@@ -10,6 +10,10 @@ namespace CarRental.Entities.Concrete
     public class Car : AuditableEntity
     {
 
+        public int CompanyId { get; set; }
+
+        public virtual Company Company { get; set; }
+
         public int BrandId { get; set; }
         public virtual Brand Brand { get; set; }
         public int ModelId { get; set; }

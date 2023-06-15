@@ -15,7 +15,7 @@ namespace CarRental.Entities.Concrete
 
         public int UserId { get; set; }
 
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public int CarId { get; set; } 
         public virtual Car Car { get; set; }

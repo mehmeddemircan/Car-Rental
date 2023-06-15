@@ -65,6 +65,9 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<SellerFormManager>().As<ISellerFormService>();
             builder.RegisterType<SellerFormRepository>().As<ISellerFormRepository>();
 
+            builder.RegisterType<CompanyManager>().As<ICompanyService>();
+            builder.RegisterType<CompanyRepository>().As<ICompanyRepository>();
+
             builder.RegisterType<CloudinaryManager>().As<ICloudinaryService>();
             builder.RegisterType<CacheManager>().As<ICacheService>();
             builder.RegisterType<PaymentManager>().As<IPaymentService>();

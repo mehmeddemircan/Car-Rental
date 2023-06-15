@@ -40,7 +40,7 @@ namespace CarRental.Business.Concrete
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Status = true,
-                OperationClaimId = 3 
+               
 
             };
             _userService.Add(user);

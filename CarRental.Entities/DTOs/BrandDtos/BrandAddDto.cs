@@ -12,7 +12,6 @@ namespace CarRental.Entities.DTOs.BrandDtos
     {
 
         public string BrandName { get; set; }
-
         public IFormFile Image { get; set; }
     }
 }

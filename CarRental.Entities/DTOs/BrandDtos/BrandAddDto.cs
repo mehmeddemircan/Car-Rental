@@ -10,6 +10,7 @@ namespace CarRental.Entities.DTOs.BrandDtos
 {
     public class BrandAddDto : IDto
     {
+        
         public string BrandName { get; set; }
 
         public IFormFile Image { get; set; }

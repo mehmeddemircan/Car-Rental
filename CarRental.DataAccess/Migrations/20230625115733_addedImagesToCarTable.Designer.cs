@@ -4,6 +4,7 @@ using CarRental.DataAccess.Concrete.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230625115733_addedImagesToCarTable")]
+    partial class addedImagesToCarTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,43 +237,6 @@ namespace CarRental.DataAccess.Migrations
                     b.HasIndex("PackageId");
 
                     b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("CarRental.Entities.Concrete.CarImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("CarImage");
                 });
 
             modelBuilder.Entity("CarRental.Entities.Concrete.Color", b =>
@@ -577,22 +543,44 @@ namespace CarRental.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsMany("CarRental.Entities.Concrete.CarImage", "Images", b1 =>
+                        {
+                            b1.Property<int>("CarId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("PublicId")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Url")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("CarId", "Id");
+
+                            b1.ToTable("CarImage");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CarId");
+                        });
+
                     b.Navigation("Brand");
 
                     b.Navigation("Color");
 
                     b.Navigation("Company");
 
+                    b.Navigation("Images");
+
                     b.Navigation("Model");
 
                     b.Navigation("Package");
-                });
-
-            modelBuilder.Entity("CarRental.Entities.Concrete.CarImage", b =>
-                {
-                    b.HasOne("CarRental.Entities.Concrete.Car", null)
-                        .WithMany("Images")
-                        .HasForeignKey("CarId");
                 });
 
             modelBuilder.Entity("CarRental.Entities.Concrete.Comment", b =>
@@ -636,8 +624,6 @@ namespace CarRental.DataAccess.Migrations
             modelBuilder.Entity("CarRental.Entities.Concrete.Car", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

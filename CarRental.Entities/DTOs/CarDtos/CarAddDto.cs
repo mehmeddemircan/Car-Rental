@@ -1,4 +1,5 @@
 ﻿using CarRental.Core.Entities.Abstract;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,7 @@ namespace CarRental.Entities.DTOs.CarDtos
         public int ColorId { get; set; }
         public int Year { get; set; }
         public int DailyPrice { get; set; }
+
+        public List<IFormFile> Images { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace CarRental.Entities.DTOs.CarDtos
         public string ColorName { get; set; }
         public int Year { get; set; }
 
+        public List<string> Images { get; set; }
         public string Description { get; set; }
         public int DailyPrice { get; set; }
 

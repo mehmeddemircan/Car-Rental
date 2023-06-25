@@ -73,7 +73,7 @@ namespace CarRental.Business.DependencyResolvers.Autofac
             builder.RegisterType<PaymentManager>().As<IPaymentService>();
             builder.RegisterType<FileLogger>();
 
-
+            builder.RegisterType<CarImageRepository>().As<ICarImageRepository>();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

@@ -41,6 +41,9 @@ namespace CarRental.DataAccess.Concrete.Contexts
 
         public DbSet<SellerForm> SellerForms { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<CarImage> CarImage { get; set; }
+
+
 
         
 

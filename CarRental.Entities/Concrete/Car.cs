@@ -1,4 +1,5 @@
 ﻿using CarRental.Core.Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,14 @@ namespace CarRental.Entities.Concrete
         public string Description { get; set; }
         public int Year { get; set; }
         public int DailyPrice { get; set; }
-
+        public List<CarImage> Images { get; set; } 
         public virtual ICollection<Comment> Comments { get; set; }
+    }
+   
+    public class CarImage : AuditableEntity
+    {
+        public int CarId { get; set; }
+        public string? PublicId { get; set; }
+        public string Url { get; set; }
     }
 }

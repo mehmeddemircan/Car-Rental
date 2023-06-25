@@ -10,7 +10,7 @@ namespace CarRental.WebAPI.Controllers.Areas.Admin
     [ApiController]
     public class CarsController : ControllerBase
     {
-        ICarService _carService; 
+        ICarService _carService;
         public CarsController(ICarService carService)
         {
             _carService = carService;
@@ -19,7 +19,7 @@ namespace CarRental.WebAPI.Controllers.Areas.Admin
         [HttpPost]
         [Route("[action]")]
 
-        public async Task<IActionResult> AddNewCar(CarAddDto colorAddDto)
+        public async Task<IActionResult> AddNewCar([FromForm] CarAddDto colorAddDto)
         {
             var result = await _carService.AddAsync(colorAddDto);
             if (result != null)

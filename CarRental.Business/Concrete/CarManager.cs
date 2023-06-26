@@ -181,7 +181,6 @@ namespace CarRental.Business.Concrete
             }
             var carImages = await _carImageRepository.GetListAsync(ci => ci.CarId == car.Id);
             car.Images = _mapper.Map<List<CarImage>>(carImages);
-
             car.Brand = brand; 
             car.Model = model;
             car.Color = color;
